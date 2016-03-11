@@ -16,11 +16,11 @@ For a more thorough explanation of the concepts behind Singularity and Mesos cli
  - [JSON REST API and Java Client](Docs/reference/api.md)
  - [Fully featured web application (replaces and improves Mesos Master UI)](Docs/about/ui.md)
  - Rich load balancer integration with [Baragon](https://github.com/HubSpot/Baragon)
- - [Deployments, automatic rollbacks, and healthchecks](Docs/about/how-it-works.md#user-content-deploys)
+ - [Deployments, automatic rollbacks, and healthchecks](Docs/about/how-it-works.md#deploys)
  - [Webhooks for third party integrations](Docs/reference/webhooks.md)
  - Configurable email alerts to service owners
  - [Historical deployment and task data](Docs/reference/database.md)
- - [Custom executor with extended log features](Docs/about/how-it-works.md#user-content-optional-components)
+ - [Custom executor with extended log features](Docs/about/how-it-works.md#optional-components)
 
 ----------
 
@@ -73,7 +73,7 @@ Then simply run `docker-compose up` and it will start containers for...
  - [Configuration](Docs/reference/configuration.md)
  - [Examples](Docs/getting-started/basic-examples.md)
  - [`Request` and `Deploy` Concepts](Docs/about/requests-and-deploys.md)
- - [Custom Executor Components](Docs/about/how-it-works.md#user-content-optional-components)
+ - [Custom Executor Components](Docs/about/how-it-works.md#optional-components)
 
 #### Development ####
 

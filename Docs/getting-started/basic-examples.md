@@ -94,7 +94,7 @@ Once the task is running you can go to [http://localhost:7099/singularity/reques
 ### Limitations
 
 - Since this container is bound to the ports 8080 and 8081 on the host machine you can't scale it up to more than one per machine.
-- Since Singularity isn't allocating the ports and we have not specified a port to use for checks you can't use the health check. (*See [choosing ports](../features/choosing-ports.md) for info on selecting specific ports*)
+- Since Singularity isn't allocating the ports and we have not specified a port to use for checks you can't use the health check. (*See [choosing ports](../features/custom-ports.md) for info on selecting specific ports*)
 
 
 ## Basic Service Using Dynamically Allocated Ports
@@ -145,7 +145,7 @@ You can navigate to the running task in the UI and get the two ports. You can th
 
 ## Basic Load Balanced Service with Allocated Ports
 
-If Singularity is [configured with a load balacner api](../development/load-balancer-integration.md) like [Baragon](https://github.com/HubSpot/Baragon), you can also have Singularity keep your load balancer up to date. When a task is started and healthy, Singularity will notify the load balacner api of the new service and the port that it is running on.
+If Singularity is [configured with a load balancer api](../development/load-balancer-integration.md) like [Baragon](https://github.com/HubSpot/Baragon), you can also have Singularity keep your load balancer up to date. When a task is started and healthy, Singularity will notify the load balacner api of the new service and the port that it is running on.
 
 We will need to add some information for the load balancer api to our JSON:
 

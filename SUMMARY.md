@@ -22,3 +22,7 @@
   * [Load Balancer Integration](Docs/development/load-balancer-integration.md)
   * [Basepom](Docs/development/basepom.md)
 * [Releases](Docs/releases/index.md)
+* Feature Docs
+  * [Choosing Custom Ports](Docs/features/custom-ports.md)
+  * [Expiring Actions](Docs/features/expiring-actions.md)
+  * [Incremental Deploys](Docs/features/incremental-deploys.md)
