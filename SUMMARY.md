@@ -13,8 +13,9 @@
   * [Webhooks](Docs/reference/webhooks.md)
   * [Slave Extras](Docs/reference/slave-extras.md)
 * Getting Started
+  * [Try It Out](Docs/getting-started/try-it-out.md)
   * [Install](Docs/getting-started/install.md)
-  * [Examples](Docs/getting-started/examples.md)
+  * [Examples](Docs/getting-started/basic-examples.md)
 * Developing
   * [Developing Using Docker](Docs/development/developing-with-docker.md)
   * [UI](Docs/development/ui.md)

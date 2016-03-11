@@ -10,7 +10,6 @@ To illustrate the differences between and usages of these two concepts, we will 
 
 ## The `TestService` Example
 
-
 ### Creating a `Request`
 You have a new web service called `TestService` that you want to run via Singularity. The first thing you need to do is create a `Request` for `TestService`. To create this request, you would `POST` json over http to the Singularity API ([`/api/requests`](../reference/api.md#post-apirequests)) or create a request via the new request page in the Singularity UI. Example json:
 
@@ -39,10 +38,10 @@ Now you want `TestService` to actually run. To do this, you need to create a `De
         "memoryMb":128,
         "numPorts":2
     }, 
-	"command":"java -Ddw.server.applicationConnectors[0].port=$PORT0 -Ddw.server.adminConnectors[0].port=$PORT1 -jar helloworld-1.0-SNAPSHOT.jar server example.yml",
+	"command":"java -Ddw.server.applicationConnectors[0].port=$PORT0 -Ddw.server.adminConnectors[0].port=$PORT1 -jar singularitytest-1.0-SNAPSHOT.jar server example.yml",
 	"uris": [
-        "https://github.com/micktwomey/docker-sample-dropwizard-service/releases/download/1.0/helloworld-1.0-SNAPSHOT.jar",
-        "https://github.com/micktwomey/docker-sample-dropwizard-service/releases/download/1.0/example.yml"
+        "https://github.com/HubSpot/singularity-test-service/releases/download/1.0/singularitytest-1.0-SNAPSHOT.jar",
+        "https://github.com/HubSpot/singularity-test-service/releases/download/1.0/example.yml"
     ],
     "healthcheckUri": "/"
   }

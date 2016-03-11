@@ -71,7 +71,7 @@ Then simply run `docker-compose up` and it will start containers for...
 
  - [API](Docs/reference/api.md)
  - [Configuration](Docs/reference/configuration.md)
- - [Examples](Docs/getting-started/examples.md)
+ - [Examples](Docs/getting-started/basic-examples.md)
  - [`Request` and `Deploy` Concepts](Docs/about/requests-and-deploys.md)
  - [Custom Executor Components](Docs/about/how-it-works.md#user-content-optional-components)
 
