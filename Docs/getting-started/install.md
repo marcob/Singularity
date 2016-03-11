@@ -1,6 +1,6 @@
 ## Installing Singularity
 
-*If you just want to test out Singularity, consider using our [docker](development/docker.md) setup instead.*
+*If you just want to test out Singularity, consider using our [docker](../development/developing-with-docker.md) setup instead.*
 
 ### 1. Set up a Zookeeper cluster
 
@@ -12,7 +12,7 @@ Puppet module: [https://forge.puppetlabs.com/deric/zookeeper](https://forge.pupp
 
 More info on how to manually set up a Zookeeper cluster lives [here](https://zookeeper.apache.org/doc/r3.3.3/zookeeperAdmin.html#sc_zkMulitServerSetup)
 
-For testing or local development purposes, a single-node cluster running on your local machine is fine. If using the [docker testing/development setup](development/docker.md), this will already be present.
+For testing or local development purposes, a single-node cluster running on your local machine is fine. If using the [docker testing/development setup](../development/developing-with-docker.md), this will already be present.
 
 ### 2. Set up MySQL (optional)
 
@@ -89,7 +89,7 @@ ui:
   baseUrl: http://localhost:7099/singularity
 ```
 
-Full configuration documentation lives here: [configuration.md](reference/configuration.md)
+Full configuration documentation lives here: [configuration.md](../reference/configuration.md)
 
 ### 6. Run MySQL migration (if necessary)
 
@@ -107,4 +107,4 @@ It's a good idea to run a migration each time you upgrade to a new version of Si
 
 ### 8. Install extra Singularity tools on Mesos slaves (optional)
 
-Singularity ships with a custom Mesos executor and extra background jobs to make running tasks easier. More info lives in [slave_extras.md](slave_extras.md).
+Singularity ships with a custom Mesos executor and extra background jobs to make running tasks easier. More info lives in [slave_extras.md](../reference/slave-extras.md).

@@ -1,14 +1,14 @@
 ## What is Singularity
 **Singularity** is a platform that enables deploying and running services and scheduled jobs in the cloud or data centers. Combined with Apache Mesos, it provides efficient management of the underlying processes life cycle and effective use of cluster resources.
 
-![HubSpot PaaS](images/HubSpot_PaaS.png)
+![HubSpot PaaS](../images/HubSpot_PaaS.png)
 
 Singularity is an essential part of the HubSpot Platform and is ideal for deploying micro-services. It is optimized to manage thousands of concurrently running processes in hundreds of servers.
 
 ## How it Works
 Singularity is an [**Apache Mesos framework**](http://mesos.apache.org/documentation/latest/mesos-frameworks/). It runs as a *task scheduler* on top of **Mesos Clusters** taking advantage of Apache Mesos' scalability, fault-tolerance, and resource isolation. [Apache Mesos](http://mesos.apache.org/documentation/latest/mesos-architecture/) is a cluster manager that simplifies the complexity of running different types of applications on a shared pool of servers. In Mesos terminology, *Mesos applications* that use the Mesos APIs to schedule tasks in a cluster are called [*frameworks*](http://mesos.apache.org/documentation/latest/app-framework-development-guide/).
 
-![Mesos Frameworks](images/Mesos_Frameworks.png)
+![Mesos Frameworks](../images/Mesos_Frameworks.png)
 
 There are different types of frameworks and most frameworks concentrate on a specific type of task (e.g. long-running vs scheduled cron-type jobs) or supporting a specific domain and relevant technology (e.g. data processing with hadoop jobs vs data processing with spark). 
 
@@ -24,7 +24,7 @@ Mesos frameworks have two major components. A **scheduler component** that regis
 
 The *Mesos master* determines how many resources are offered to each framework and the *framework scheduler* selects which of the offered resources to use to run the required tasks. Mesos slaves do not directly run the tasks but delegate the running to the appropriate *executor* that has knowledge about the nature of the allocated task and the special handling that might be required.
 
-![Singularity Components](images/Singularity_Framework_Components.png)
+![Singularity Components](../images/Singularity_Framework_Components.png)
 
 As depicted in the figure, Singularity implements the two basic framework components as well as a few more to solve common complex / tedious problems such as task cleanup and log tailing / archiving without requiring developers to implement it for each task they want to run:
 
@@ -38,9 +38,9 @@ After a deployable item (a **request**, in API terms) has been registered, clien
 <a name="deploys">
 Rollback of failed deploys, health checking and load balancing are also part of the advanced functionality the Singularity Scheduler offers. A new deploy for a long runing service will run as shown in the diagram below.
 
-![Singularity Deploy](images/deploy.png)
+![Singularity Deploy](../images/deploy.png)
 
-When a service or worker instance fails in a new deploy, the Singularity scheduler will rollback all instances to the version running before the deploy, keeping the deploys always consistent. After the scheduler makes sure that a Mesos task (corresponding to a service instance) has entered the TASK_RUNNING state it will use the provided health check URL and the specified health check timeout settings to perform health checks. If health checks go well, the next step is to perform load balancing of service instances. Load balancing is attempted only if the corresponding deployable item has been defined to be *loadBalanced*. To perform load balancing between service instances, Singularity supports a rich integration with a specific Load Balancer API. Singularity will post requests to the Load Balancer API to add the newly deployed service instances and to remove those that were previously running. Check [Integration with Load Balancers](development/lbs.md) to learn more. Singularity also provides generic webhooks which allow third party integrations, which can be registered to follow request, deploy, or task updates.
+When a service or worker instance fails in a new deploy, the Singularity scheduler will rollback all instances to the version running before the deploy, keeping the deploys always consistent. After the scheduler makes sure that a Mesos task (corresponding to a service instance) has entered the TASK_RUNNING state it will use the provided health check URL and the specified health check timeout settings to perform health checks. If health checks go well, the next step is to perform load balancing of service instances. Load balancing is attempted only if the corresponding deployable item has been defined to be *loadBalanced*. To perform load balancing between service instances, Singularity supports a rich integration with a specific Load Balancer API. Singularity will post requests to the Load Balancer API to add the newly deployed service instances and to remove those that were previously running. Check [Integration with Load Balancers](../development/load-balancer-integration.md) to learn more. Singularity also provides generic webhooks which allow third party integrations, which can be registered to follow request, deploy, or task updates.
 
 <a name="placement">
 #### Slave Placement

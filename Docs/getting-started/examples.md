@@ -9,11 +9,11 @@
 - [Docker Service with Bridge Networking](#docker-service-with-bridge-networking)
 - [Load Balanced Docker Service Using The SingularityExecutor](#load-balanced-docker-service-using-the-singularityexecutor)
 
-These examples assume you have [installed singularity](../install.md).
+These examples assume you have [installed singularity](install.md).
 
 The services deployed will be a [build](https://github.com/micktwomey/docker-sample-dropwizard-service) of the [Dropwizard getting started example](https://dropwizard.github.io/dropwizard/getting-started.html) and a [simple python service](https://github.com/micktwomey/docker-sample-web-service).
 
-*For this walkthrough we will assume you are using the [docker-compose example cluster](../development/docker.md) and that Singularity is running at `http://192.168.59.103:7099/singularity` (default when using boot2docker). For your own case you can replace 192.168.59.103 with whatever host Singularity is running on in your setup*
+*For this walkthrough we will assume you are using the [docker-compose example cluster](../development/developing-with-docker.md) and that Singularity is running at `http://192.168.59.103:7099/singularity` (default when using boot2docker). For your own case you can replace 192.168.59.103 with whatever host Singularity is running on in your setup*
 
 ## Creating the Request
 
@@ -146,7 +146,7 @@ You can navigate to the running task in the UI and get the two ports. You can th
 
 ## Basic Load Balanced Service with Allocated Ports
 
-If Singularity is [configured with a load balacner api](Docs/development/lbs.md) like [Baragon](https://github.com/HubSpot/Baragon), you can also have Singularity keep you load balancer up to date. When a task is started and healthy, Singularity will notify the load balacner api of the new service and the port that it is running on.
+If Singularity is [configured with a load balacner api](../development/load-balancer-integration.md) like [Baragon](https://github.com/HubSpot/Baragon), you can also have Singularity keep you load balancer up to date. When a task is started and healthy, Singularity will notify the load balacner api of the new service and the port that it is running on.
 
 We will need to add some information for the load balancer api to our JSON:
 
@@ -338,7 +338,7 @@ To deploy this service instead change the Docker image being used:
 
 As we saw above we can add the `loadBalancerGroups` and `serviceBasePath` fields to our deploy and have our service be load balanced.
 
-Now, we also want to add in the SingularityExecutor. The SingularityExecutor [also has docker support](../containers.md) (separate form the mesos docekr containerizer). We can instead use the SingularityExecutor by adding the following to our deploy JSON:
+Now, we also want to add in the SingularityExecutor. The SingularityExecutor [also has docker support](../reference/container-options.md) (separate form the mesos docekr containerizer). We can instead use the SingularityExecutor by adding the following to our deploy JSON:
 
 ```json
 "customExecutorCmd": "/usr/local/bin/singularity-executor", # as configured in the example cluster
