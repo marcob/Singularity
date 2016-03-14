@@ -25,4 +25,4 @@
 * Feature Docs
   * [Choosing Custom Ports](Docs/features/custom-ports.md)
   * [Expiring Actions](Docs/features/expiring-actions.md)
-  * [Incremental Deploys](Docs/features/incremental-deploys.md)
+  * [Shell Commands](Docs/features/shell-commands.md)

@@ -110,4 +110,4 @@ Once started the Singularity UI will be available at http://(host):7099/singular
 
 ### 8. Install extra Singularity tools on Mesos slaves (optional)
 
-Singularity ships with a custom Mesos executor and extra background jobs to make running tasks easier. More info lives in [slave_extras.md](../reference/slave-extras.md).
+Singularity ships with a custom Mesos executor and extra background jobs to make running tasks easier. You can find more info about the slave extras [here](../reference/slave-extras.md).
