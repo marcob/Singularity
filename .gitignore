@@ -24,6 +24,7 @@ SingularityUI/bower_components/*
 SingularityUI/brunchlog
 SingularityUI/app/env.coffee
 
+node_modules/*
 .vagrant
 vagrant/Berksfile.lock
 SingularityUI/.vee

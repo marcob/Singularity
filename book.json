@@ -5,14 +5,15 @@
     "home": null,
     "about": false,
     "issues": "https://github.com/HubSpot/Singularity/issues",
-    "contribute": "https://github.com/HubSpot/Singularity",
-    "sharing": {
-      "google": false,
-      "facebook": false,
-      "twitter": false
-    }
+    "contribute": "https://github.com/HubSpot/Singularity"
   },
   "variables": {
     "releases": ["0.4.11", "0.4.10", "0.4.9", "0.4.8", "0.4.7", "0.4.6", "0.4.5"]
-  }
+  },
+  "plugins": ["github", "-sharing", "-highlight"],
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/HubSpot/Singularity"
+        }
+    }
 }

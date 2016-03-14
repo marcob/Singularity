@@ -33,7 +33,7 @@ You can also create the request using a JSON HTTP POST:
     "owners": [
         "you@example.com"
     ],
-    "daemon": true,
+    "requestType": "SERVICE",
     "rackSensitive": false,
     "loadBalanced": false
 }
@@ -93,7 +93,7 @@ Once the task is running you can go to [http://localhost:7099/singularity/reques
 
 ### Limitations
 
-- Since this container is bound to the ports 8080 and 8081 on the host machine you can't scale it up to more than one per machine.
+- Since this container is bound to the ports 8080 and 8081 on the host machine you can't scale it up to more than one per machine. Depending on your setup, you may already see port in use errors when starting the app, as those ports are commonly used by other processes.
 - Since Singularity isn't allocating the ports and we have not specified a port to use for checks you can't use the health check. (*See [choosing ports](../features/custom-ports.md) for info on selecting specific ports*)
 
 
@@ -147,6 +147,27 @@ You can navigate to the running task in the UI and get the two ports. You can th
 
 If Singularity is [configured with a load balancer api](../development/load-balancer-integration.md) like [Baragon](https://github.com/HubSpot/Baragon), you can also have Singularity keep your load balancer up to date. When a task is started and healthy, Singularity will notify the load balacner api of the new service and the port that it is running on.
 
+Because our previous request is already running, you cannot update our non-load-balanced service to be load balanced. Instead, create a new request for a load balanced version of our service. This can be done by POSTing json to the request endpoint similar to the following (note the `"loadBalanced": true`).
+
+```json
+{
+    "id": "singularity-test-load-balanced-service",
+    "owners": [
+        "you@example.com"
+    ],
+    "requestType": "SERVICE",
+    "rackSensitive": false,
+    "loadBalanced": true
+}
+```
+
+You can POST this JSON (saved in request.json) using curl:
+
+```sh
+curl -i -X POST -H "Content-Type: application/json" -d@request.json \
+http://locahost:7099/singularity/api/requests
+```
+
 We will need to add some information for the load balancer api to our JSON:
 
 ```
@@ -160,7 +181,7 @@ Make another deploy request by posting the following JSON:
 ```json
 {
     "deploy": {
-        "requestId": "singularity-test-service",
+        "requestId": "singularity-test-load-balanced-service",
         "id": "3",
         "command": "java -Ddw.server.applicationConnectors[0].port=$PORT1 -Ddw.server.adminConnectors[0].port=$PORT0 -jar singularitytest-1.0-SNAPSHOT.jar server example.yml",
         "resources": {
@@ -228,7 +249,7 @@ The equivalent JSON:
 }
 ```
 
-This will pull down the Docker image from the Docker registry and start the container. The ports will be bound to the Mesos slave host, so the service will be available again at [http://localhost:8080/](http://localhost:8080/).
+This will pull down the Docker image from the Docker registry and start the container. The ports will be bound to the Mesos slave host, so the service will be available again at [http://localhost:8080/](http://localhost:8080/). The command to run is already set in the docker image, so in this case it is not set in the deploy. Any command set in the deploy json will override the command for the docekr container (i.e CMD in Dockerfile)
 
 ## Docker Service with Bridge Networking and Dynamically Allocated Ports
 
@@ -286,51 +307,41 @@ You can go back to the [request](http://localhost:7099/singularity/request/singu
 
 You can also scale it up in a similar manner, this time you should notice the new tasks starting much faster. This is because the Docker layers are already on the machine, so the Docker pull should be nearly instant.
 
-## Load Balanced Docker Service Using The SingularityExecutor
+## Load Balanced Service Using The SingularityExecutor
 
 As we saw above we can add the `loadBalancerGroups` and `serviceBasePath` fields to our deploy and have our service be load balanced.
 
-Now, we also want to add in the SingularityExecutor, Singularity's custom executor. The SingularityExecutor [also has docker support](../reference/container-options.md) (separate form the mesos docker containerizer). We can instead use the SingularityExecutor by adding a `customExecutorCmd` (where to find the executor code) and `executorData` (data to pass to our custom executor) in the deploy JSON:
+Now, we also want to add in the SingularityExecutor, Singularity's custom executor. We can use the SingularityExecutor by adding a `customExecutorCmd` (where to find the executor code) and `executorData` (data to pass to our custom executor) in the deploy JSON:
 
 ```json
 {
     "deploy": {
-        "requestId": "singularity-test-service",
+        "requestId": "singularity-test-load-balanced-service",
         "id": "4",
-        "containerInfo": {
-            "type": "DOCKER",
-            "docker": {
-                "network": "BRIDGE",
-                "image": "hubspot/singularity-test-service:1.0",
-                "portMappings": [
-                    {
-                        "containerPortType": "LITERAL",
-                        "containerPort": 8081,
-                        "hostPortType": "FROM_OFFER",
-                        "hostPort": 0,
-                        "protocol": "tcp"
-                    },
-                    {
-                        "containerPortType": "LITERAL",
-                        "containerPort": 8080,
-                        "hostPortType": "FROM_OFFER",
-                        "hostPort": 1,
-                        "protocol": "tcp"
-                    }
-                ]
-            }
-        },
         "resources": {
             "cpus": 0.1,
             "memoryMb": 128,
             "numPorts": 2
         },
         "healthcheckUri": "/healthcheck",
+        "serviceBasePath":"/",
+        "loadBalancerGroups":["test"],
         "customExecutorCmd": "/usr/local/bin/singularity-executor",
         "executorData": {
-            "cmd":"",
+            "cmd":"java -Ddw.server.applicationConnectors[0].port=$PORT1 -Ddw.server.adminConnectors[0].port=$PORT0 -jar singularitytest-1.0-SNAPSHOT.jar server example.yml",
             "embeddedArtifacts":[],
-            "externalArtifacts": [],
+            "externalArtifacts": [
+                {
+                    "name": "singularitytest-1.0-SNAPSHOT.jar",
+                    "filename": "singularitytest-1.0-SNAPSHOT.jar",
+                    "url": "https://github.com/HubSpot/singularity-test-service/releases/download/1.0/singularitytest-1.0-SNAPSHOT.jar"
+                },
+                {
+                    "name": "example.yml",
+                    "filename": "example.yml",
+                    "url": "https://github.com/HubSpot/singularity-test-service/releases/download/1.0/example.yml"
+                }
+            ],
             "s3Artifacts": [],
             "successfulExitCodes": [0],
             "user": "root",
@@ -343,3 +354,5 @@ Now, we also want to add in the SingularityExecutor, Singularity's custom execut
 ```
 
 `POST`ing this to Singularity we now have a docker container with mapped ports connected to a load balancer and running via the SingularityExecutor.
+
+Note that the SingularityExecutor [also has docker support](../reference/container-options.md) (separate form the mesos docker containerizer). By specifying a `containerInfo` section, the SingularityExecutor will manage the lifecycle of your container.
